@@ -11,10 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'name' => 'Admin Toko',
     'modules' => [],
+    'homeUrl' => '/mymart2/admin',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'baseUrl' => '/mymart2/admin',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -37,14 +40,18 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
-        */
+        'urlManagerFrontend' => [
+            'class' => 'yii\web\UrlManager',
+            'baseUrl' => 'http://localhost/mymart2/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [],
+        ],
     ],
     'params' => $params,
 ];

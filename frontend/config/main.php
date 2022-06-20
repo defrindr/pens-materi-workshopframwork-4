@@ -10,10 +10,33 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'name' => 'Frontend Toko',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => '/mymart2',
+        ],
+        'response' => [
+            'class' => 'yii\web\Response',
+            'on beforeSend' => function ($event) {
+                $path_info = \Yii::$app->request->pathInfo;
+                // var_dump(strpos($path_info, "item/view"));die;
+                if (strpos($path_info, "item/index") !== false || strpos($path_info, "item/view") !== false) {
+                    $log = new \common\models\Statistics();
+                    $log->user_ip = \Yii::$app->request->userIP;
+                    $log->user_host = \Yii::$app->request->hostInfo;
+                    $log->access_time = date("Y-m-d H:i:s");
+                    $log->path_info = \Yii::$app->request->pathInfo;
+                    $log->query_string = \Yii::$app->request->queryString;
+                    if ($log->validate()) {
+                        $log->save();
+                    } else {
+                        var_dump($log->errors);
+                        die;
+                    }
+                }
+            },
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -36,14 +59,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
-        */
+        'urlManagerFrontend' => [
+            'class' => 'yii\web\UrlManager',
+            'baseUrl' => 'http://localhost/mymart2/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [],
+        ],
     ],
     'params' => $params,
+    "defaultRoute" => "item/index",
 ];
