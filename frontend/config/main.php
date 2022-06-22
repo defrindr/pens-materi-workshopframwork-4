@@ -13,9 +13,16 @@ return [
     'name' => 'Frontend Toko',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        // 'cache' => [
+        //     'class' => 'yii\caching\FileCache',
+        // ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => '/mymart2',
+            'parsers' => [
+                'multipart/form-data' => 'yii\web\MultipartFormDataParser',
+                'application/json' => 'yii\web\JsonParser', // enable json parser
+            ],
         ],
         'response' => [
             'class' => 'yii\web\Response',
@@ -24,7 +31,7 @@ return [
                 // var_dump(strpos($path_info, "item/view"));die;
                 if (strpos($path_info, "item/index") !== false || strpos($path_info, "item/view") !== false) {
                     $log = new \common\models\Statistics();
-                    $log->user_ip = \Yii::$app->request->userIP;
+                    $log->user_ip = \Yii::$app->request->userIP ?? "0.0.0.0";
                     $log->user_host = \Yii::$app->request->hostInfo;
                     $log->access_time = date("Y-m-d H:i:s");
                     $log->path_info = \Yii::$app->request->pathInfo;
@@ -59,11 +66,29 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'enableStrictParsing' => false,
+            'rules' => [
+                '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:[\w\-]+>/<action:[\w\-]+>' => '<controller>/<action>',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',   
+                    'tokens' => [
+                         '{id}' => '<id:\\w+>'
+                    ],
+               ],
+               [
+                   'class' => 'yii\rest\UrlRule',
+                   'controller' => 'api/item',   
+                   'tokens' => [
+                        '{id}' => '<id:\\w+>'
+                   ],
+              ],
+               
+            ],
         ],
         'urlManagerFrontend' => [
             'class' => 'yii\web\UrlManager',

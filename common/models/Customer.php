@@ -59,6 +59,11 @@ class Customer extends \yii\db\ActiveRecord
         return $this->hasMany(Order::className(), ['customer_id' => 'id']);
     }
 
+    public function getCarts()
+    {
+        return $this->hasMany(Cart::className(), ['customer_id' => 'id']);
+    }
+
     /**
      * Gets query for [[User]].
      *

@@ -41,13 +41,21 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'Product', 'url' => ['/item/index']],
-            ['label' => 'Customer', 'url' => ['/customer/index']],
-            ['label' => 'Order', 'url' => ['/order/index']],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
         } else {
+            $items = [
+                ['label' => 'Customer', 'url' => ['/customer/index']],
+                ['label' => 'Order', 'url' => ['/customer/show-order']],
+                ['label' => 'Cart', 'url' => ['/item/keranjang-show']],
+            ];
+
+            foreach ($items as $item) {
+                array_push($menuItems, $item);
+            }
+
             $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
                 . Html::submitButton(

@@ -1,0 +1,9 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        url: http://localhost/mymart2/
+        browser: chrome
+    - Yii2:
+        part: init

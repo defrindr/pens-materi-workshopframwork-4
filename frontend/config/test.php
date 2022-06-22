@@ -6,10 +6,24 @@ return [
             'basePath' => __DIR__ . '/../web/assets',
         ],
         'urlManager' => [
-            'showScriptName' => true,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',   
+                    'tokens' => [
+                         '{id}' => '<id:\\w+>'
+                    ],
+               ],
+               
+            ],
         ],
         'request' => [
             'cookieValidationKey' => 'test',
+            'baseUrl' => '/',
         ],
     ],
+    "defaultRoute" => "item/index",
 ];

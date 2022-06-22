@@ -5,23 +5,24 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "order".
+ * This is the model class for table "cart".
  *
  * @property int $id
- * @property string $date
  * @property int $customer_id
+ * @property int $item_id
+ * @property int $jumlah
  *
  * @property Customer $customer
- * @property OrderItem $orderItem
+ * @property Item $item
  */
-class Order extends \yii\db\ActiveRecord
+class Cart extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'order';
+        return 'cart';
     }
 
     /**
@@ -30,9 +31,9 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'customer_id'], 'required'],
-            [['date'], 'safe'],
-            [['customer_id', 'total_payment'], 'integer'],
+            [['customer_id', 'item_id', 'jumlah'], 'required'],
+            [['customer_id', 'item_id', 'jumlah'], 'integer'],
+            [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
@@ -44,8 +45,9 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date' => 'Date',
             'customer_id' => 'Customer ID',
+            'item_id' => 'Item ID',
+            'jumlah' => 'Jumlah',
         ];
     }
 
@@ -60,12 +62,12 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[OrderItem]].
+     * Gets query for [[Item]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderItems()
+    public function getItem()
     {
-        return $this->hasMany(OrderItem::className(), ['order_id' => 'id']);
+        return $this->hasOne(Item::className(), ['id' => 'item_id']);
     }
 }

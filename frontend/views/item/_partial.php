@@ -12,5 +12,6 @@ use yii\bootstrap4\Html;
     </div>
     <div class="card-footer">
         <?= Html::a("Beli", ["beli", "id" => $model->id], ["class" => "btn btn-primary"]) ?>
+        <?= Html::a("Tambah Ke Keranjang", ["add-to-cart", "id" => $model->id], ["class" => "btn btn-warning"]) ?>
     </div>
 </div>

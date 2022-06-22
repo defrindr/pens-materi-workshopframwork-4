@@ -27,6 +27,18 @@ class ItemCategoryController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => \yii\filters\AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                                return \Yii::$app->user->id == 1;
+                            }
+                        ],
+                    ],
+                ],
             ]
         );
     }

@@ -30,7 +30,7 @@ class OrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['item_id'], 'required'],
-            [['item_id'], 'integer'],
+            [['item_id', 'jumlah', 'subtotal', 'harga_pembelian'], 'integer'],
             [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];
