@@ -122,7 +122,7 @@ class ItemController extends Controller
             $carts = $customer->carts;
 
             if (count($carts) == 0) {
-                Yii::$app->session->setFlash('error', 'You have no customer');
+                Yii::$app->session->setFlash('error', 'You have no item in cart');
                 return $this->redirect(['/item/keranjang-show']);
             }
 

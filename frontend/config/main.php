@@ -71,8 +71,6 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:[\w\-]+>/<action:[\w\-]+>' => '<controller>/<action>',
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',   
@@ -85,8 +83,10 @@ return [
                    'controller' => 'api/item',   
                    'tokens' => [
                         '{id}' => '<id:\\w+>'
-                   ],
-              ],
+                    ],
+                ],
+                '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:[\w\-]+>/<action:[\w\-]+>' => '<controller>/<action>',
                
             ],
         ],
